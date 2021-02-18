@@ -7,6 +7,12 @@ Global:
   data_base: &base /data/yezheng/ctr/x-deeplearning/xdl-algorithm-solution/ESMM/data/build/
 #  data_base: &base /mnt/d/datasets/ctr/tfrecord/
 
+Preprocess:
+  Topic:
+    base_dir: &base_dir '/base/dir/'
+    topic_name: !join [*base_dir, 'topic.txt']
+    output_name: !join [*base_dir, 'topic_stemmed.txt']
+    is_stemming: true
 
 Models:
   active: 'esmm' # which model is active. put multiple model in one place

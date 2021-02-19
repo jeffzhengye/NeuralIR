@@ -1,32 +1,34 @@
-# coding: utf-8
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+#
+# Trec topic file title extractor
+#
+# Input:  Trec topics file (title line = 1 line), optional: "doStem" as 2nd argument if words should be stemmed
+# Output: single file in ../data/<name of the input file>
+#         contents: num1 text text text
+#                   num2 text text
+#         (text contains no newlines, num is the topic number)
+#
+# The text is stripped of all non text characters, lower-cased, and only single whitespaces
+#
 
 import os
 import sys
 import re
 from nltk.stem import *
-from nir.utils.args_utils import ArgsParser, load_config, merge_config
 
-#
-__dir__ = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(__dir__)
-sys.path.append(os.path.abspath(os.path.join(__dir__, '..')))
-
-FLAGS = ArgsParser().parse_args()
-config = load_config(FLAGS.config)
-merge_config(FLAGS.opt)
-
-# retrieve paras
-doStem = config['Preprocess']['Topic']['is_stemming']
-inputFile = topic_path = config['Preprocess']['Topic']['topic_name']
-outFilepath = config['Preprocess']['Topic']['output_name']
+# make sure the argument is good (0 = the python file, 1 the actual argument)
+if len(sys.argv) < 2 or not os.path.isfile(sys.argv[1]):
+    print ('Needs 1 argument - the trec topic file path!')
+    exit(0)
 
 cleanTextRegex = re.compile('[^a-zA-Z]')
 count = 0
 stemmer = PorterStemmer()
+doStem = len(sys.argv) == 3 and sys.argv[2] == 'doStem'
 
+outFilepath = '../data/'+os.path.basename(sys.argv[1])
+if doStem:
+    outFilepath = '../data/' + os.path.splitext(os.path.basename(sys.argv[1]))[0] +".stemmed"\
+                  +os.path.splitext(os.path.basename(sys.argv[1]))[1]
 
 with open(outFilepath, 'w') as outputFile:
     with open(sys.argv[1], 'r') as inputFile:
@@ -58,5 +60,5 @@ with open(outFilepath, 'w') as outputFile:
                 outputFile.write('\n')
                 count = count + 1
 
-print('Completed all ', count, ' topics')
-print('Saved in: ', outFilepath)
+print ('Completed all ', count, ' topics')
+print ('Saved in: ', outFilepath)

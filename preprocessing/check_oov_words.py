@@ -15,7 +15,7 @@ from nltk.corpus import stopwords
 
 # make sure the argument is good (0 = the python file, 1,2 the actual argument)
 if len(sys.argv) != 3 or not os.path.isfile(sys.argv[1]) or not os.path.isfile(sys.argv[2]):
-    print ('Needs 2 arguments - 1. word2vec gensim model, 2. the trec file (id text) that you want to check')
+    print('Needs 2 arguments - 1. word2vec gensim model, 2. the trec file (id text) that you want to check')
     exit(0)
 
 #
@@ -48,11 +48,11 @@ with open(sys.argv[2], 'r') as inFile:
                 if stemmed not in vectors.vocab:
                     wordlist.append((ws, stemmed))
 
-print ('found ', len(wordlist),' oov words')
+print('found ', len(wordlist),' oov words')
 if len(wordlist) > 0:
 
     x = [a[0]+' ('+a[1]+')' for a in set(wordlist)]
     x.sort()
-    print ('\n'.join(x))
+    print('\n'.join(x))
 
-print ('\n-------\n', checked, ' lines checked')
+print('\n-------\n', checked, ' lines checked')

@@ -23,7 +23,7 @@ start_time = timeit.default_timer()
 def cal_hist(t1_rep, t2_rep, qnum, hist_size):
 
     mhist = np.zeros((qnum, hist_size), dtype=np.float32)
-    mm = t1_rep.dot(np.transpose(t2_rep))
+    mm = t1_rep.dot(np.transpose(t2_rep)) #点积乘
 
     for (i,j), v in np.ndenumerate(mm):
         if i >= qnum:

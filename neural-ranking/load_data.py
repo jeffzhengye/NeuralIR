@@ -27,11 +27,9 @@ def get_keras_train_input(pair_file, histogram_file):
 
     #
     # create numpy arrays
-    # 创建numpy数组
     #
 
     # the loss function needs a round number, * 2 because we have two input lines for every pair
-    # 损失函数需要一个整数* 2，因为每一对都有两行输入
     data_count = int(len(topic_rel_nonrel) / 10) * 10 * 2
 
     # np histogram
@@ -48,7 +46,6 @@ def get_keras_train_input(pair_file, histogram_file):
     skipped_count = 0
     #
     # for every line here create 2 numpy lines, first line is relevant doc, second line is non_relevant
-    # 对于这里的每一行创建2个numpy行，第一行是相关的文档，第二行是非相关的
     #
     for i_output in range(0, data_count, 2):
 
@@ -56,7 +53,6 @@ def get_keras_train_input(pair_file, histogram_file):
         i_input += 1
 
         # there might be one or two pairs not in the histogram data - ignore them for now
-        # 可能有一两对不在直方图数据中-暂时忽略它们
         if topic in histogram_data and rel_doc in histogram_data[topic] and nonrel_doc in histogram_data[topic]:
 
             topic_rel_data = histogram_data[topic][rel_doc]
@@ -82,7 +78,6 @@ def get_keras_train_input(pair_file, histogram_file):
 
 #
 # loads the pre-ranked test fold file, + histogram data, returns keras ready numpy input + prerank data
-# 加载pre-ranked 的测试文件，+直方图数据，返回keras就绪numpy输入+预排序数据
 #
 def get_keras_test_input(preranked_file, histogram_file):
     topic_prerank = []
@@ -183,6 +178,8 @@ def load_histogram_data(filepath):
                 data_per_topic[topicId] = {}
 
             data_per_topic[topicId][docId] = (score, idfs, histograms)
+            # print("dsgajgfaj",data_per_topic.items(),type(data_per_topic))
+
 
     print('loaded ' + str(count) + ' topic<->doc histogram entries')
     return data_per_topic, count

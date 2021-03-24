@@ -16,10 +16,11 @@ import sys
 import re
 import codecs
 from nltk.stem import *
+from nltk.corpus import stopwords
 
 # make sure the argument is good (0 = the python file, 1 the actual argument)
 if len(sys.argv) < 2 or not os.path.isdir(sys.argv[1]):
-    print ('Needs 1 argument - the trec data directory path!')
+    print('Needs 1 argument - the trec data directory path!')
     exit(0)
 
 cleanTextRegex = re.compile('[^a-zA-Z]')
@@ -28,6 +29,8 @@ cleanHtmlRegex = re.compile('<[^<]+?>')
 docCount = 0
 stemmer = PorterStemmer()
 doStem = len(sys.argv) == 3 and sys.argv[2] == 'doStem'
+stoplist = stopwords.words('english')
+
 
 def handleTrecFile(filename, outputFile):
     """
@@ -47,7 +50,7 @@ def handleTrecFile(filename, outputFile):
 
             # get the current document id
             if line.startswith('<DOCNO>'):
-                # currentDocId = line.replace('<DOCNO>', '').replace('</DOCNO>', '').strip()
+                currentDocId = line.replace('<DOCNO>', '').replace('</DOCNO>', '').strip()
                 recordContent = True
                 continue
 
@@ -66,23 +69,20 @@ def handleTrecFile(filename, outputFile):
                             cleaned = stemmer.stem(w.lower().strip())
                         else:
                             cleaned = w.lower().strip()
-                        wordList.append(cleaned)
+                        if cleaned not in stoplist:
+                            wordList.append(cleaned)
+                        # wordList.append(cleaned)
                 outputText = ' '.join(wordList)
 
                 # write single line output, reset state
-                if (len(outputText) <= 0):
-                    recordContent = False
-                    currentDocContent = []
-                    continue
-                else:
-                    # outputFile.write(currentDocId)
-                    # outputFile.write(' ')
-                    outputFile.write(outputText)
-                    outputFile.write('\n')
-                    recordContent = False
-                    currentDocContent = []
-                    docCount = docCount + 1
-                    continue
+                outputFile.write(currentDocId)
+                outputFile.write(' ')
+                outputFile.write(outputText)
+                outputFile.write('\n')
+                recordContent = False
+                currentDocContent = []
+                docCount = docCount + 1
+                continue
 
             # we are inside a document - record !
             if recordContent:
@@ -106,6 +106,6 @@ with open(outFileName, 'w') as outputFile:
             handleTrecFile(dirpath + os.sep + file, outputFile)
             count = count + 1
             if count % 10 == 0:
-                print ('Completed ', count, ' files, with ', docCount, ' docs, time:', timeit.default_timer() - start_time)
+                print('Completed ', count, ' files, with ', docCount, ' docs, time:', timeit.default_timer() - start_time)
 
-print ('\n-------\n', 'Completed all ', count, ' files, with ', docCount, ' docs, time: ', timeit.default_timer() - start_time)
+print('\n-------\n', 'Completed all ', count, ' files, with ', docCount, ' docs, time: ', timeit.default_timer() - start_time)

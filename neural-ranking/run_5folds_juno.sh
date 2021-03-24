@@ -5,7 +5,7 @@ foldname="grissom_fold_"
 trainFoldLocation="../data/5-folds/robust04.qrels_fold_"
 trainHistogramLocation="../data/qrel_histogram_30.txt"
 testFoldLocation="../data/5-folds/robust04.qrels_fold_"
-testHistogramLocation="../data/prerank_histogram_10.txt"
+testHistogramLocation="../data/prerank_histogram_30.txt"
 
 
 for number in {1..5}

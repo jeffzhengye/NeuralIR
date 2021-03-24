@@ -1,6 +1,5 @@
 # from https://github.com/faneshion/MatchZoo/blob/master/matchzoo/losses/rank_losses.py
 # from keras.backend import tf
-import six
 from keras import layers, backend as K
 from keras.losses import *
 from keras.layers import Lambda

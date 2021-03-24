@@ -14,20 +14,22 @@ import os
 import sys
 import re
 from nltk.stem import *
+from nltk.corpus import stopwords
 
 # make sure the argument is good (0 = the python file, 1 the actual argument)
 if len(sys.argv) < 2 or not os.path.isfile(sys.argv[1]):
-    print ('Needs 1 argument - the trec topic file path!')
+    print('Needs 1 argument - the trec topic file path!')
     exit(0)
 
 cleanTextRegex = re.compile('[^a-zA-Z]')
 count = 0
 stemmer = PorterStemmer()
 doStem = len(sys.argv) == 3 and sys.argv[2] == 'doStem'
+stoplist = stopwords.words('english')
 
-outFilepath = '../data/'+os.path.basename(sys.argv[1])
+outFilepath = '../data/corpus/'+os.path.basename(sys.argv[1])
 if doStem:
-    outFilepath = '../data/' + os.path.splitext(os.path.basename(sys.argv[1]))[0] +".stemmed"\
+    outFilepath = '../data/corpus/' + os.path.splitext(os.path.basename(sys.argv[1]))[0] +".stemmed"\
                   +os.path.splitext(os.path.basename(sys.argv[1]))[1]
 
 with open(outFilepath, 'w') as outputFile:
@@ -50,7 +52,9 @@ with open(outFilepath, 'w') as outputFile:
                             cleaned = stemmer.stem(w.strip())
                         else:
                             cleaned = w.strip()
-                        wordList.append(cleaned)
+                        if cleaned not in stoplist:
+                            wordList.append(cleaned)
+                        # wordList.append(cleaned)
                 outputText = ' '.join(wordList)
 
                 # write single line output
@@ -60,5 +64,5 @@ with open(outFilepath, 'w') as outputFile:
                 outputFile.write('\n')
                 count = count + 1
 
-print ('Completed all ', count, ' topics')
-print ('Saved in: ', outFilepath)
+print('Completed all ', count, ' topics')
+print('Saved in: ', outFilepath)

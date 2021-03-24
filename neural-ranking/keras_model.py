@@ -20,11 +20,9 @@ def build_keras_model():
 
     #
     # input layers (query and doc)
-    # 输入层（查询和文档）
     #
 
     # -> the query idf input (1d array of float32)
-    # 查询idf输入
     query = Input(name='query', shape=(query_term_maxlen,1))
 
     # -> the histogram (2d array: every query gets 1d histogram
@@ -32,7 +30,6 @@ def build_keras_model():
 
     #
     # the histogram handling part (feed forward network)
-    # 直方图处理部分(前馈网络)
     #
 
     z = doc
@@ -45,16 +42,14 @@ def build_keras_model():
 
     #
     # the query term idf part
-    # 查询词idf部分
     #
 
-    q_w = Dense(1, kernel_initializer=initializer_gate, use_bias=False)(query)
+    q_w = Dense(1, kernel_initializer=initializer_gate, use_bias=False)(query) # what is that doing here ??
     q_w = Lambda(lambda x: softmax(x, axis=1), output_shape=(query_term_maxlen,))(q_w)
     q_w = Reshape((query_term_maxlen,))(q_w) # isn't that redundant ??
 
     #
     # combination of softmax(query term idf) and feed forward result per query term
-    # softmax(查询词idf)和每个查询词的前馈结果的组合
     #
     out_ = Dot(axes=[1, 1])([z, q_w])
 

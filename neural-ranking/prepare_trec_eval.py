@@ -7,12 +7,11 @@ preranked_file = sys.argv[3]
 
 preranked = [] # (topic, doc id, score) score is 0,1 if qrel
 
+
 with open(preranked_file, 'r') as inputFile:
     for line in inputFile:
         parts = line.split()
         preranked.append((int(parts[0]), parts[2].strip(), parts[4].strip()))
-
-
 
 
 data = {}
@@ -32,20 +31,19 @@ with open(filepath ,'r') as inputFile:
 
 # prerank * neural score
 
-i_rank = 0
+i_rank =0
 for topic in sorted(data):
     list = data[topic]
     for i in range(len(list)):
         score, docId = list[i]
 
-        #print(preranked[i_rank])
         preranked_item = preranked[i_rank]
 
         if preranked_item[0] != topic:
-            #print('fixing topic unequal',preranked_item[0],topic)
+            # print('fixing topic unequal',preranked_item[0],topic)
             if preranked_item[0] < topic:
                 while preranked[i_rank][0] < topic:
-                    i_rank += 1
+                    i_rank+=1
             preranked_item = preranked[i_rank]
 
         if preranked_item[0] != topic or preranked_item[1] != docId:
@@ -57,8 +55,8 @@ for topic in sorted(data):
 
         #preranked_score = filter(lambda item: item[0] == topic and item[1] == docId, preranked)
 
-        list[i] = (score*float(preranked_score),docId)
-        i_rank += 1
+        list[i] = (score*abs(float(preranked_score)),docId)
+        i_rank+=1
 
 
 

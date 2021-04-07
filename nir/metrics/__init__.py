@@ -10,6 +10,6 @@ from __future__ import print_function as _print_function
 
 import sys as _sys
 
-from mctr.metrics.metrics import *
+from nir.metrics.metrics import *
 
 del _print_function

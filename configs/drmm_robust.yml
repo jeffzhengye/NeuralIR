@@ -7,6 +7,7 @@ Global:
   hist_size: 30
   num_layers: 2
   hidden_sizes: [5, 1]
+  reranking_count: 2000
 
   additional_tag: ''  # use to name the checkpoint for additional settings in the experiments.
   checkpoint: &v_checkpoint  './checkpoint/esmm'
@@ -20,8 +21,8 @@ Datasets:
   active: robust
   robust:
     output_dir: "grissom_fold"
-    train_qrel_format: "/home/heben/yezheng/neural_ranking_drmm/data/5-folds/qrels.rob04_fold_{fold}"
-    test_qrel_format: "/home/heben/yezheng/neural_ranking_drmm/data/5-folds/qrels.rob04_fold_{fold}"
+    train_qrel_format: "/home/heben/yezheng/neural_ranking_drmm/data/5-folds/qrels.rob04_fold_{fold}.train"
+    test_qrel_format: "/home/heben/yezheng/neural_ranking_drmm/data/5-folds/qrels.rob04_fold_{fold}.test"
     train_histogram: "/home/heben/yezheng/neural_ranking_drmm/data/qrel_histogram_30.txt"
     test_histogram: "/home/heben/yezheng/neural_ranking_drmm/data/prerank_histogram_30.txt"
 

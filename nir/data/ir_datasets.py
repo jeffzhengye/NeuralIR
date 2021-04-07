@@ -5,6 +5,7 @@ import time
 
 import numpy as np
 import tensorflow as tf
+import os
 
 user_fn = ['101', '109_14', '110_14', '127_14', '150_14', '121', '122', '124', '125', '126', '127', '128', '129']
 # user_fn_type= [tf.int32]

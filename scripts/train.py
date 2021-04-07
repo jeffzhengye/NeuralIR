@@ -17,8 +17,7 @@ import sys
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
 from tensorflow.python.keras import Input
-from tensorflow.python.keras.layers import Activation, Permute, Reshape, Lambda, Dot
-from tensorflow.python.layers.core import Dense
+from tensorflow.python.keras.layers import Activation, Permute, Reshape, Lambda, Dot, Dense
 
 sys.path.append(__dir__)
 sys.path.append(os.path.abspath(os.path.join(__dir__, '..')))
@@ -93,7 +92,7 @@ loss = get_loss(loss_name)
 
 
 def get_prefix(paras=None):
-    prefix_formatter = "{model}_lr{lr}_bn{bn}_shuffle{shuffle}_dp{dropout}_{loss_name}_{loss_weight}_share{share_embedding}_e{embedding_size}_{activation}_{optimizer}"
+    prefix_formatter = "{model}_lr{lr}_{optimizer}"
     if paras:
         f_dict = paras
     else:
@@ -146,12 +145,12 @@ def get_drmm(input_gi, input_histogram):
     for i in range(num_layers):
         z = Dense(hidden_sizes[i], activation='tanh')(z)
 
-    z = layers.Flatten(z)
+    z = layers.Flatten()(z)
 
     # term gating network for idf weighting strategy.  @TODO  the first strategy of Term Vector (TV)
     q_w = Dense(1, use_bias=False)(input_gi)  # what is that doing here ??
-    q_w = layers.Flatten(q_w)
-    q_w = layers.Softmax(q_w)
+    q_w = layers.Flatten()(q_w)
+    q_w = layers.Softmax()(q_w)
 
     #
     # combination of softmax(query term idf) and feed forward result per query term

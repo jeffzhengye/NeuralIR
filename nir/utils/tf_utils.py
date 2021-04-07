@@ -9,9 +9,8 @@
 
 import tensorflow as tf
 from copy import deepcopy
-import mctr
-import mctr.callbacks
-import mctr.losses
+import nir.callbacks
+import nir.losses
 import tensorflow.keras.losses
 import importlib
 import types
@@ -54,7 +53,7 @@ def get_layers(config):
     return c(**paras)
 
 
-loss_modules = [importlib.import_module(l.__name__) for l in [tf.keras.losses, mctr.losses, tfa_losses]]
+loss_modules = [importlib.import_module(l.__name__) for l in [tf.keras.losses, nir.losses, tfa_losses]]
 
 
 def get_loss(name, paras={}):
@@ -72,7 +71,7 @@ def get_fun_cls_from(modules: list, name, paras={}):
     raise RuntimeError('{0} is not defined in inclued loss modules'.format(name))
 
 
-callbacks_modules = [importlib.import_module(l.__name__) for l in [tf.keras.callbacks, mctr.callbacks]]
+callbacks_modules = [importlib.import_module(l.__name__) for l in [tf.keras.callbacks, nir.callbacks]]
 
 
 def get_callbacks(name, paras={}):

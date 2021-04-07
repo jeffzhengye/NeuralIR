@@ -1,3 +1,16 @@
+1. pair 对如何获取
+2. how to stop training?  - a) loss, b) evaluation metrics
+3. 数据预处理方法确认 - 
+4. histogram 生产确认：方法
+5. output: tanh 
+6. oov的处理: cosine=1, 
+7. word2vec的处理：stop stemed
+TODO list: 
+    1) split training data, to get val data; or find best para on test for prove of idea
+
+
+
+
 代码分为两部分：预处理阶段和网络训练阶段
 
 网络训练阶段：
